@@ -17,4 +17,12 @@ jobs:
           Git: <https://github.com/g0diaz/CICD>
           Image: 
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+    - name:  Trivy Scan
+      run: trivy fs -s CRITICAL --exit-code 1
+        
+
+      
+
+    
         
