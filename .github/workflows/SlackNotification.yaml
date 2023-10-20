@@ -12,5 +12,6 @@ jobs:
         SLACK_MESSAGE: |
           Luke
           Bobo
+          <mailto:lulu@gmail.com | Mail Lu Lu>
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
