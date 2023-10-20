@@ -19,12 +19,9 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
     - name: Trivy Scan
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'fs'
-        format: 'table'
-        output: 'trivy-report.txt'
-        severity: 'CRITICAL,HIGH'
+      id: trivy_scan
+      run: trivy fs -s HIGH,CRITICAL -f table
+        
 
 
         
