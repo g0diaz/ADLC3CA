@@ -18,9 +18,12 @@ jobs:
           Image: 
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-    - name: Trivy Scan
-      id: trivy_scan
-      run: trivy fs -s HIGH,CRITICAL -f table
+    - name: Aqua Security Trivy
+      uses: aquasecurity/trivy-action@0.12.0
+      with:
+        severity: HIGH,CRITICAL
+        format: table
+      
         
 
 
