@@ -19,10 +19,24 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
     - name: Aqua Security Trivy
-      uses: aquasecurity/trivy-action@0.12.0
+      uses: aquasecurity/trivy-action@master
       with:
+        scan-type: 'fs'
+        ignore-unfixed: true
         severity: HIGH,CRITICAL
         format: table
+        output: 'trivy-report.txt'
+    
+    - uses: MeiliCli/slack-upload-file@v3
+      with:
+        slack_token: ${{ secrets.SLACK_TOKEN }}
+        channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+        content: 'trivy-report.txt'
+        file_type: 'text'
+        file_name: 'trivy-report.txt'
+        title: 'Trivy Scan Report'
+        initial_comment: 'Trivy scan failed. Here is the report.'
+    
       
         
 
