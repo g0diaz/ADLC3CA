@@ -9,6 +9,8 @@ jobs:
     - name: Testing
       uses: rtCamp/action-slack-notify@v2
       env:
-        SLACK_MESSAGE: GGWP /nFAZEUP
+        SLACK_MESSAGE: |
+          Luke
+          Bobo
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
