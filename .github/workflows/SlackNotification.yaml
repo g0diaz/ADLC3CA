@@ -6,8 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Slack Notification
+    - name: Testing
       uses: rtCamp/action-slack-notify@v2
       env:
-        SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
