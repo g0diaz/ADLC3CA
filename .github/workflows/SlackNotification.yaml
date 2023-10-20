@@ -9,9 +9,12 @@ jobs:
     - name: Testing
       uses: rtCamp/action-slack-notify@v2
       env:
+        SLACK_TITLE: Image build and signed
         SLACK_MESSAGE: |
-          Luke
-          Bobo
-          <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
+          Name: Phyo Khant Ko
+          Matriculation: A0287271X
+          Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
+          Git: <https://github.com/g0diaz/CICD>
+          Image: 
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
