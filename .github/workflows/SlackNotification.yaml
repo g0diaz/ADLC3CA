@@ -12,6 +12,6 @@ jobs:
         SLACK_MESSAGE: |
           Luke
           Bobo
-          <mailto:lulu@gmail.com | Mail Lu Lu>
+          <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         
