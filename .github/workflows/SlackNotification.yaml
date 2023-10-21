@@ -33,18 +33,15 @@ jobs:
           push: true
           tags: g0diaz/go-fortune:${{ github.sha }}
 
-      - name: Shorten Commit Hash
-        run: |
-            SHORT_SHA=$(echo "${{ github.sha }}" | cut -c 1-7)
-
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.1.1
 
       - name: Sign image with a key
-        run:  cosign sign --key env://COSIGN_PRIVATE_KEY g0diaz/go-fortune@sha256:$SHORT_SHA
+        run:  cosign sign --key env://COSIGN_PRIVATE_KEY "${TAGS}"
         env:
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
+          TAGS: g0diaz/go-fortune:${{ github.sha }}
         
       
       - name: Testing
