@@ -43,9 +43,10 @@ jobs:
         uses: sigstore/cosign-installer@v3.1.1
 
       - name: Sign image with a key
+        run:  cosign sign --key env://COSIGN_PRIVATE_KEY g0diaz/go-fortune@sha256:$SHORT_SHA
         env:
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
-        run:  cosign sign --key env://COSIGN_PRIVATE_KEY g0diaz/go-fortune@sha256:$SHORT_SHA
+          COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
         
       
       - name: Testing
