@@ -42,8 +42,9 @@ jobs:
 
       - name: Sign image with a key
         run:  |
-          cosign sign --key env://COSIGN_PRIVATE_KEY "g0diaz/go-fortune:${{github.sha}}"
+          cosign sign --key env://COSIGN_PRIVATE_KEY "g0diaz/go-fortune:${{github.short_sha}}"
         env:
+
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
 
