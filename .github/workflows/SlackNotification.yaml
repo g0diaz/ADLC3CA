@@ -1,34 +1,32 @@
 on: push
 name: Build and Push
 jobs:
-  slackNotification:
-    name: Slack Notification
+  CICD:
+    name: CICD
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Testing
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_TITLE: Image build and signed
-        SLACK_MESSAGE: |
-          Name: Phyo Khant Ko
-          Matriculation: A0287271X
-          Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
-          Git: <https://github.com/g0diaz/CICD>
-          Image: 
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - run: 'echo ${{ github.event.inputs.message }} > message.txt'
-    - uses: MeilCli/slack-upload-file@v3
-      id: message
-      with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-          content: 'file content'
-          file_type: 'text'
-          file_name: 'text.txt'
-          title: 'title of file'
-          initial_comment: 'post by slack-upload-file'
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          output: 'trivy-report.txt'
+          severity: 'HIGH,CRITICAL'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-report.txt'
+
+
+
+
+      
+    
     
       
         
