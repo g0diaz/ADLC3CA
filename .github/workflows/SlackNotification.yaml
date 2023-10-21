@@ -47,11 +47,11 @@ jobs:
 
       - name: Sign image with a key
         run:  |
-          cosign sign --key env://COSIGN_PRIVATE_KEY "g0diaz/go-fortune@${DIGEST}"
+          cosign sign --key env://COSIGN_PRIVATE_KEY "g0diaz/go-fortune:${TAGS}"
         env:
+          TAGS: ${{ steps.docker_meta.outputs.tags }}
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
       - name: Testing
         uses: rtCamp/action-slack-notify@v2
