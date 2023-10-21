@@ -31,7 +31,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          tags: g0diaz/go-fortune:${{ github.long }}
+          tags: g0diaz/go-fortune:${{ github.sha }}
 
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.1.1
