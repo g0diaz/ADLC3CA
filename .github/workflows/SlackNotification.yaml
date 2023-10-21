@@ -1,3 +1,4 @@
+
 name: Build and Push
 on: push
 jobs:
@@ -31,7 +32,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          tags: g0diaz/go-fortune:tag
+          tags: g0diaz/go-fortune:${{github.sha}}
 
       - name: Install cosign
         uses: sigstore/cosign-installer@v2.2.0
@@ -42,9 +43,8 @@ jobs:
 
       - name: Sign image with a key
         run:  |
-          cosign sign --key env://COSIGN_PRIVATE_KEY "g0diaz/go-fortune:${{github.short_sha}}"
+          cosign sign --key env://COSIGN_PRIVATE_KEY "g0diaz/go-fortune:${{github.sha}}"
         env:
-
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
 
