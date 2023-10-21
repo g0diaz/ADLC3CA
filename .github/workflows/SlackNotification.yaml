@@ -32,7 +32,7 @@ jobs:
 
       - name: Sign image with a key
         run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY
+          cosign sign -key $COSIGN_PRIVATE_KEY -password $COSIGN_PASSWORD g0diaz/go-fortune:${{ github.sha }}
         env: 
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
@@ -47,26 +47,4 @@ jobs:
               Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
               Git: <https://github.com/g0diaz/CICD>
               Image: 
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
-      
-      
-
-     
-
-
-
-
-      
-    
-    
-      
-        
-
-
-        
-
-      
-
-    
-        
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
