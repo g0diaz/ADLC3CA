@@ -16,11 +16,27 @@ jobs:
           format: 'table'
           output: 'trivy-report.txt'
           severity: 'HIGH,CRITICAL'
+      
+      - name: Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Scan failed
+          SLACK_MESSAGE: |
+            Failed trivy scan,see uploaded report
+          SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+      
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+      - uses: MeilCli/slack-upload-file@v3
         with:
-          sarif_file: 'trivy-report.txt'
+            slack_token: ${{secrets.SLACK_TOKEN}}
+            channel_id: ${{secrets.SLACK_CHANNEL_ID}}
+            content: 'file content'
+            file_type: 'text'
+            file_name: 'trivy-report.txt'
+            title: 'title of file'
+            initial_comment: 'post by slack-upload-file'
+
+     
 
 
 
