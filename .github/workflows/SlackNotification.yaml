@@ -15,23 +15,6 @@ jobs:
           ignore-unfixed: true
           format: 'table'
           output: 'trivy-report.txt'
-          severity: 'HIGH,CRITICAL'
-
-      - uses: MeilCli/slack-upload-file@v3
-        with:
-            slack_token: ${{secrets.SLACK_TOKEN}}
-            channel_id: ${{secrets.SLACK_CHANNEL_ID}}
-            file_path: 'trivy-report.txt'
-            initial_comment: 'Scan report by Diaz'
-      - run: exit 1
-
-      - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecsurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'table'
-          output: 'trivy-report.txt'
           severity: 'CRITICAL'
 
       - name: Login to Docker Hub
@@ -49,7 +32,22 @@ jobs:
 
       - name: Sign image with a key
         run: |
-          cosign sign 
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY
+        env: 
+          COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      
+      - name: Testing
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_TITLE: Image build and signed
+            SLACK_MESSAGE: |
+              Name: Phyo Khant Ko
+              Matriculation: A0287271X
+              Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
+              Git: <https://github.com/g0diaz/CICD>
+              Image: 
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
       
       
