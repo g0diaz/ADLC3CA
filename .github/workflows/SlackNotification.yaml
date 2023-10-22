@@ -9,7 +9,7 @@ jobs:
     name: CompleteProcess
     runs-on: ubuntu-latest
     env:
-      Flow: Completed
+      Flow: 'Completed'
     if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
     steps:
       - name: Checkout code
@@ -82,10 +82,10 @@ jobs:
         env:
             SLACK_TITLE: Image build and signed
             SLACK_MESSAGE: |
-              Name: blablabla
+              Name: Phyo Khant Ko
               Matriculation: A0287271X
               Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
-              Git: <https://github.com/g0diaz/CICD>
+              Git: <https://github.com/g0diaz/ADLC3CA>
               Image: <https://hub.docker.com/repository/docker/g0diaz/go-fortune/general>
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
@@ -93,7 +93,7 @@ jobs:
     name: Failed Process
     runs-on: ubuntu-latest
     env:
-      Flow: Failed
+      Flow: 'Failed'
     if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
     steps:
       - name: Checkout code
