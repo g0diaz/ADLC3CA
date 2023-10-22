@@ -1,9 +1,9 @@
 
-name: Build and Push
+name: Scan
 on: push
 jobs:
-  CICD:
-    name: CICD
+  scan:
+    name: Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,8 +18,41 @@ jobs:
           output: 'trivy-report.txt'
           severity: 'CRITICAL'
 
+  build-image:
+    name: build-image
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.1.1
+        with:
+            cosign-release: 'v2.2.0'
+
+      - name: Check install!
+        run: cosign version
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2.1.0   
+
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: docker_meta
+        uses: docker/metadata-action@v4.4.0
+        with:
+          images: g0diaz/go-fortune
+          tags: type=sha,format=long
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -27,26 +60,21 @@ jobs:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
       
-      - name: Build and push
-        uses: prompt/actions-commit-hash@v3
-      - uses: docker/build-push-action@v5
+      - name: Build and push 
+        uses: docker/build-push-action@v4.0.0
+        id: build-and-push
         with:
           push: true
-          tags: g0diaz/go-fortune:${{github.sha}}
-
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3.1.1
-        with:
-          cosign-release: 'v2.2.0'
-      - name: Check install!
-        run: cosign version
+          tags: ${{steps.docker_meta.outputs.tags}}
 
       - name: Sign image with a key
         run:  |
-          cosign sign --key env://COSIGN_PRIVATE_KEY g0diaz/go-fortune@sha256:${{github.sha}}
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
         env:
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
+          TAGS: ${{steps.docker_meta.outputs.tags}}
+          DIGEST: ${{steps.build-and-push.outputs.digest}}
 
       - name: Testing
         uses: rtCamp/action-slack-notify@v2
