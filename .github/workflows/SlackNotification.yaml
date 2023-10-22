@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.1.1
         with:
@@ -83,7 +83,7 @@ jobs:
         env:
             SLACK_TITLE: Image build and signed
             SLACK_MESSAGE: |
-              Name: blabla
+              Name: blablabla
               Matriculation: A0287271X
               Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
               Git: <https://github.com/g0diaz/CICD>
