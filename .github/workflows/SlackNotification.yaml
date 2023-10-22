@@ -5,8 +5,8 @@ on:
       - 'v[0-9]+.[0-9]+'
 
 jobs:
-  CompleteProcess:
-    name: CompleteProcess
+  Complete_Process:
+    name: Complete Process
     runs-on: ubuntu-latest
     if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
     steps:
@@ -80,7 +80,7 @@ jobs:
         env:
             SLACK_TITLE: Image build and signed
             SLACK_MESSAGE: |
-              Name: blablabla
+              Name: Phyo Khant Ko
               Matriculation: A0287271X
               Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
               Git: <https://github.com/g0diaz/CICD>
@@ -88,8 +88,8 @@ jobs:
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
 
-  FailedProcess:
-    name: FailedProcess
+  Failed_Process:
+    name: Failed Process
     runs-on: ubuntu-latest
     if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
     steps:
