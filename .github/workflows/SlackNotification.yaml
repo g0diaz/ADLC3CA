@@ -35,7 +35,7 @@ jobs:
           tags: g0diaz/go-fortune:${{github.sha}}
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@v2.2.0
+        uses: sigstore/cosign-installer@v3.1.1
         with:
           cosign-release: 'v2.2.0'
       - name: Check install!
@@ -43,7 +43,7 @@ jobs:
 
       - name: Sign image with a key
         run:  |
-          cosign sign --key env://COSIGN_PRIVATE_KEY "g0diaz/go-fortune:${{github.sha}}"
+          cosign sign --key env://COSIGN_PRIVATE_KEY g0diaz/go-fortune:${{github.sha}}
         env:
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
