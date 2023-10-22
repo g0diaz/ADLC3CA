@@ -1,4 +1,4 @@
-name: Scan
+name: CICD
 on: 
   push:
     branches:
