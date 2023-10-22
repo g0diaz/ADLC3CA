@@ -4,10 +4,13 @@ on:
     branches:
       - 'v[0-9]+.[0-9]+'
 
+
 jobs:
   Complete_Process:
     name: Complete Process
     runs-on: ubuntu-latest
+    env:
+      FLOW: Completed
     if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
     steps:
       - name: Checkout code
@@ -87,10 +90,11 @@ jobs:
               Image: <https://hub.docker.com/repository/docker/g0diaz/go-fortune/general>
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
-
   Failed_Process:
     name: Failed Process
     runs-on: ubuntu-latest
+    env:
+      FLOW: Failed
     if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
     steps:
 
