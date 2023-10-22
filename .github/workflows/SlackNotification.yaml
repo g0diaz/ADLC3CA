@@ -76,7 +76,7 @@ jobs:
           TAGS: ${{steps.docker_meta.outputs.tags}}
           DIGEST: ${{steps.build-and-push.outputs.digest}}
 
-      - name: Testing
+      - name: Notification to Slack
         uses: rtCamp/action-slack-notify@v2
         env:
             SLACK_TITLE: Image build and signed
@@ -85,5 +85,5 @@ jobs:
               Matriculation: A0287271X
               Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
               Git: <https://github.com/g0diaz/CICD>
-              Image: dockerimage
+              Image: <https://hub.docker.com/repository/docker/g0diaz/go-fortune/general>
             SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
