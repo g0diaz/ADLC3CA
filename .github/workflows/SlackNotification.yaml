@@ -4,20 +4,19 @@ on:
     branches:
       - 'v[0-9]+.[0-9]+'
 
-
 jobs:
-  Complete_Process:
-    name: Complete Process
+  CICD:
     runs-on: ubuntu-latest
-    env:
-      FLOW: Completed
     if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
+  
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Complete Process
         id: complete_process
+        env:
+          FLOW: Completed
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -90,19 +89,10 @@ jobs:
               Image: <https://hub.docker.com/repository/docker/g0diaz/go-fortune/general>
             SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
 
-  Failed_Process:
-    name: Failed Process
-    runs-on: ubuntu-latest
-    env:
-      FLOW: Failed
-    if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
-    steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Failed Process
         id: failed_process
+        env:
+          FLOW: Failed
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
