@@ -32,7 +32,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           push: true
-          tags: type=sha,format=long
+          tags: g0diaz/go-fortune:${{github.sha}}
 
       - name: Install cosign
         uses: sigstore/cosign-installer@v3.1.1
