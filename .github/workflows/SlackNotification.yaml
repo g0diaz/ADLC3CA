@@ -5,15 +5,12 @@ on:
       - 'v[0-9]+.[0-9]+'
 
 jobs:
-  CheckNoRun:
-    name: Check No Run
-    runs-on: ubuntu-latest
-    if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}
-    
   CompleteProcess:
     name: CompleteProcess
     runs-on: ubuntu-latest
-    if: ${{ vars.Flow == 'Completed' }}
+    env:
+      Flow: 'Completed'
+    if:  ${{vars.Flow == 'Completed' && !startsWith(github.event.head_commit.message, '#NORUN')}}  
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -95,7 +92,9 @@ jobs:
   FailedProcess:
     name: Failed Process
     runs-on: ubuntu-latest
-    if: ${{ vars.Flow == 'Failed' }}
+    env:
+      Flow: 'Failed'
+    if:  ${{vars.Flow == 'Failed' && !startsWith(github.event.head_commit.message, '#NORUN')}}   
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
