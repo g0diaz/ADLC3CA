@@ -7,16 +7,15 @@ on:
 jobs:
   CICD:
     runs-on: ubuntu-latest
-    if:  ${{!startsWith(github.event.head_commit.message, '#NORUN')}}  
-  
+    if:  ${{ !startsWith(github.event.head_commit.message, '#NORUN')}}  
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
       - name: Complete Process
         id: complete_process
-        env:
-          FLOW: Completed
+        if: ${{env.FLOW == 'Completed'}}
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -91,8 +90,7 @@ jobs:
 
       - name: Failed Process
         id: failed_process
-        env:
-          FLOW: Failed
+        if: ${{env.FLOW == 'Failed'}}
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
