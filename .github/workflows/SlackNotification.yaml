@@ -61,8 +61,6 @@ jobs:
         env:
           COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           COSIGN_PRIVATE_KEY: ${{secrets.COSIGN_PRIVATE_KEY}}
-          TAGS: ${{steps.docker_meta.outputs.tags}}
-          DIGEST: ${{steps.build-and-push.outputs.digest}}
 
       - name: Notification to Slack
         uses: rtCamp/action-slack-notify@v2
