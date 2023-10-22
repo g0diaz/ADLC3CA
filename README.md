@@ -1,4 +1,4 @@
-## Command line optio
+## Command line option
 
 | Option    | Description                        | Default       |
 |-----------|------------------------------------|---------------|
