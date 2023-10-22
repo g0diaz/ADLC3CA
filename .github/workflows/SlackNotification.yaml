@@ -1,4 +1,3 @@
-
 name: Scan
 on: push
 jobs:
@@ -16,7 +15,23 @@ jobs:
           ignore-unfixed: true
           format: 'table'
           output: 'trivy-report.txt'
-          severity: 'CRITICAL'
+          severity: 'HIGH,CRITICAL'
+
+      - name: Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: Scan failed
+          SLACK_MESSAGE: |
+            Failed trivy scan,see uploaded report
+          SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}}
+  
+      - uses: MeilCli/slack-upload-file@v3
+        with:
+            slack_token: ${{secrets.SLACK_TOKEN}}
+            channel_id: ${{secrets.SLACK_CHANNEL_ID}}
+            file_path: 'trivy-report.txt'
+            initial_comment: 'Scan report by blabla'
+      - run: exit 1
 
   build-image:
     name: build-image
@@ -86,4 +101,4 @@ jobs:
               Email: <mailto:e1285217@u.nus.edu | e1285217@u.nus.edu>
               Git: <https://github.com/g0diaz/CICD>
               Image: <https://hub.docker.com/repository/docker/g0diaz/go-fortune/general>
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
+            SLACK_WEBHOOK: ${{secrets.SLACK_WEBHOOK}} 
